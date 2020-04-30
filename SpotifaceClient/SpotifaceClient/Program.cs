@@ -13,12 +13,12 @@ namespace SpotifyAPI.Web.Examples.CLI
 {
     internal static class Program
     {
-        private static string _clientId = ""; //"";
-        private static string _secretId = ""; //"";
-        private  const int CHANGE_SONG_BUFFER_MS = 1000;
+        private static string _clientId;
+        private static string _secretId;
+        private const int CHANGE_SONG_BUFFER_MS = 1000;
 
         private static SpotifyWebAPI _spotify;
-        private static readonly Dictionary<string,string> _playlistMap = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> _playlistMap = new Dictionary<string, string>()
         {
             {"happy",       "spotify:playlist:70x6C39NKrjYZryhRkuxfJ"},
             {"sad",         "spotify:playlist:5Ty5Wicbp9UOjBxdylJ3yA"},
@@ -54,7 +54,7 @@ namespace SpotifyAPI.Web.Examples.CLI
                 var lastMostCommon = "";
 
                 socket.Bind("tcp://127.0.0.1:5555");
-                LaunchEmotionDetection(Path.GetFullPath(@"..\..\..\..\..\src\") , "video_emotion_color_demo.py");
+                LaunchEmotionDetection(Path.GetFullPath(@"..\..\..\..\..\src\"), "video_emotion_color_demo.py");
 
                 while (true)
                 {
@@ -68,7 +68,8 @@ namespace SpotifyAPI.Web.Examples.CLI
                     PlaybackContext playbackContext = _spotify.GetPlayback();
                     var isReadyForNewSong = !playbackContext.IsPlaying || playbackContext.ProgressMs >= (playbackContext.Item.DurationMs - CHANGE_SONG_BUFFER_MS);
                     Console.WriteLine("{0} ms before next song!", playbackContext.Item.DurationMs - CHANGE_SONG_BUFFER_MS - playbackContext.ProgressMs);
-                    if (isReadyForNewSong) {
+                    if (isReadyForNewSong)
+                    {
                         Console.WriteLine("READY FOR A NEW SONG");
                         string mostCommon = emotionStack.GroupBy(v => v).OrderByDescending(g => g.Count()).First().Key;
                         if (mostCommon != lastMostCommon)
